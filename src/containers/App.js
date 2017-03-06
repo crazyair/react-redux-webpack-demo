@@ -10,15 +10,21 @@ import React, {
 } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
-import {} from '../actions/';
+import { browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
+import { addItem } from '../actions/';
 import Main from '../components/App';
+import Items from '../containers/Item';
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
-    const { actions } = this.props;
-    return <Main actions={actions} />;
+    const {actions, items} = this.props;
+    return (
+      <div>
+        <Main actions={actions} items={items}/>
+        <Items/>
+      </div>
+    );
   }
 }
 /* Populated by react-webpack-redux:reducer
@@ -27,16 +33,18 @@ class App extends Component {
  *       adjust it here.
  */
 App.propTypes = {
-  actions: PropTypes.shape({})
+  actions: PropTypes.shape({ addItem: PropTypes.func.isRequired }),
+  items: PropTypes.shape({})
 };
-function mapStateToProps(state) { // eslint-disable-line no-unused-vars
+function mapStateToProps(state) {
+  // eslint-disable-line no-unused-vars
   /* Populated by react-webpack-redux:reducer */
-  const props = {};
+  const props = { items: state.items };
   return props;
 }
 function mapDispatchToProps(dispatch) {
   /* Populated by react-webpack-redux:action */
-  const actions = {};
+  const actions = { addItem };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;
 }
